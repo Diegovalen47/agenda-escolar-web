@@ -96,12 +96,24 @@ export async function updateStudent(req: Request, res: Response): Promise<Respon
 
   const studentId = req.params.studentId
   const updateStudent: Student = req.body
-  const conn = await connect()
 
-  await conn.query('UPDATE `Student` SET ? WHERE studentId = ?', [updateStudent, studentId])
+  try {
 
-  return res.json({
-    message: "Post updated"
-  })
+    const conn = await connect()
+
+    await conn.query('UPDATE `Student` SET ? WHERE studentId = ?', [updateStudent, studentId])
+  
+    return res.json({
+      message: "Post updated"
+    })
+
+  } catch (error: any) {
+
+    res.status(500)
+    res.send(error.message)
+
+    return res
+
+  }
 
 }
