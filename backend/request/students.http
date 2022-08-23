@@ -1,4 +1,34 @@
-@api = http://localhost:3000/students
+@api = http://localhost:4000/students
 
 ### getting all students
 GET {{api}}
+
+### creating new student
+POST {{api}}
+Content-Type: application/json
+
+{
+  "studentId": 1007456,
+  "password": "Hola k ase",
+  "name": "Santiago",
+  "lastName": "Castro",
+  "email": "sacastrot@unale.edu.co"
+}
+
+### get student by id
+GET {{api}}/1007290916
+
+### Delete student
+DELETE {{api}}/1007456
+
+### Update student
+PUT {{api}}/1007456
+Content-Type: application/json
+
+{
+  "studentId": 1007456,
+  "password": "Severa contrasenia",
+  "name": "Santiago",
+  "lastName": "Castro Tabares",
+  "email": "sacastrot@unale.edu.co"
+}

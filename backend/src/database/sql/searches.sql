@@ -50,3 +50,41 @@ ON
   inscription.typologyId = typology.typologyId 
 WHERE
   semester.semesterId = 1;
+
+/* Saca nota por parcial sin tener en cuenta el porcentaje del parcial */
+SELECT
+  `Partial`.`partialId`,
+  `Partial`.`name`,
+  SUM(`Item`.`weight` * `Item`.`score`) AS `notaPonderada`,
+  `Partial`.`weight`
+FROM
+  `Inscription` JOIN `Partial` JOIN `Item`
+ON
+  `Partial`.`partialId` = `Item`.`partialId`
+  AND
+  `Partial`.`inscriptionId` = `Inscription`.`inscriptionId`
+WHERE
+  `Inscription`.`inscriptionId` = 1
+GROUP BY
+  `Partial`.`partialId`;
+
+/* Saca la nota final por materia */
+SELECT
+  SUM(`Partials`.`notaPonderada` * `Partials`.`weight`) AS `notaFinal`
+FROM (
+  SELECT
+    `Partial`.`partialId`,
+    `Partial`.`name`,
+    SUM(`Item`.`weight` * `Item`.`score`) AS `notaPonderada`,
+    `Partial`.`weight`
+  FROM
+    `Inscription` JOIN `Partial` JOIN `Item`
+  ON
+    `Partial`.`partialId` = `Item`.`partialId`
+    AND
+    `Partial`.`inscriptionId` = `Inscription`.`inscriptionId`
+  WHERE
+  `Inscription`.`inscriptionId` = 1
+  GROUP BY
+    `Partial`.`partialId`
+) AS `Partials`;
