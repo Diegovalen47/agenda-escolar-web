@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 
 config();
-
+// Configuracion de variables de entorno
 console.log(process.env.PORT);
 
 export default {

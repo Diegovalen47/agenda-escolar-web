@@ -12,7 +12,7 @@ export async function getStudents(req: Request, res: Response): Promise<Response
     return res.json(response[0])
   
   } catch (error: any) {
-    
+
     res.status(500)
     res.send(error.message)
 
@@ -29,7 +29,7 @@ export async function createNewStudent(req: Request, res: Response): Promise<Res
   try {
 
     const conn = await connect();
-    conn.query('INSERT INTO `Student` SET ?', [newStudent])
+    conn.query(queries.createNewStudent, [newStudent])
 
     return res.json({
       message: 'Post created'
@@ -53,7 +53,7 @@ export async function getStudentById(req: Request, res:Response): Promise<Respon
   try {
 
     const conn = await connect();
-    const response = await conn.query('SELECT * FROM `Student` WHERE studentId = ?', [studentId])
+    const response = await conn.query(queries.getStudentById, [studentId])
 
     return res.json(response[0])
 
@@ -75,7 +75,7 @@ export async function deleteStudent(req: Request, res: Response): Promise<Respon
   try {
 
     const conn = await connect();
-    await conn.query('DELETE FROM `Student` WHERE studentId = ?', [studentId])
+    await conn.query(queries.deleteStudent, [studentId])
 
     return res.json({
       message : 'Post deleted'
@@ -101,7 +101,7 @@ export async function updateStudent(req: Request, res: Response): Promise<Respon
 
     const conn = await connect()
 
-    await conn.query('UPDATE `Student` SET ? WHERE studentId = ?', [updateStudent, studentId])
+    await conn.query(queries.updateStudent, [updateStudent, studentId])
   
     return res.json({
       message: "Post updated"

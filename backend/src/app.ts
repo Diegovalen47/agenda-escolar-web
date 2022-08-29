@@ -19,6 +19,8 @@ export class App {
     this.app.set("port", this.port || process.env.PORT || 4000);
   }
 
+  // metodo que tiene acceso al cilco de vida
+  // request - response
   middlewares() {
     this.app.use(morgan("dev"));
     this.app.use(express.json());

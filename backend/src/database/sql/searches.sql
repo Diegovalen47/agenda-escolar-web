@@ -70,19 +70,23 @@ GROUP BY
 
 /* Saca la nota final por materia */
 SELECT
+  `Partials`.`courseId`,
+  `Partials`.`name`,
   SUM(`Partials`.`notaPonderada` * `Partials`.`weight`) AS `notaFinal`
 FROM (
   SELECT
-    `Partial`.`partialId`,
-    `Partial`.`name`,
+    `Course`.`courseId`,
+    `Course`.`name`,
     SUM(`Item`.`weight` * `Item`.`score`) AS `notaPonderada`,
     `Partial`.`weight`
   FROM
-    `Inscription` JOIN `Partial` JOIN `Item`
+    `Course` JOIN `Inscription` JOIN `Partial` JOIN `Item`
   ON
     `Partial`.`partialId` = `Item`.`partialId`
     AND
     `Partial`.`inscriptionId` = `Inscription`.`inscriptionId`
+    AND
+    `Course`.`courseId` = `Inscription`.`courseId`
   WHERE
   `Inscription`.`inscriptionId` = 1
   GROUP BY
