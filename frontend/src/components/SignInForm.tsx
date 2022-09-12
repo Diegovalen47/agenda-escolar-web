@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
+import { Button, Col, Form, InputGroup, Nav, Row } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 export function SignInForm() {
   
@@ -16,7 +17,7 @@ export function SignInForm() {
   };
   
   return (
-    <Form noValidate validated={validated} onSubmit={handleSubmit}>
+    <Form noValidate validated={validated} onSubmit={handleSubmit} method="POST">
       <Form.Group controlId="studentId">
         <Form.Label>Student ID</Form.Label>
         <Form.Control

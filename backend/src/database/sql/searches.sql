@@ -1,9 +1,7 @@
 /* How to get all study plans from one student */
 /* TODO Mejorar atributos seleccionados */
 SELECT
-  `studyplan`.`planId`,
-  `studyplan`.`name`,
-  `studyplan`.`requiredCredits`
+  `studyplan`.`planId`, `studyplan`.`name`, `studyplan`.`requiredCredits`
 FROM 
   `student` JOIN `studyplan` 
 ON 
@@ -13,13 +11,9 @@ WHERE
 
 /* materias de un estudiante */
 SELECT
-  `Student`.`identification`,
-  `Student`.`name`,
-  `Student`.`lastName`,
-  `Course`.`name`,
-  `Course`.`credits`
+  `Student`.`identification`, `Student`.`name`, `Student`.`lastName`, `Course`.`name`, `Course`.`credits`
 FROM 
-  `Student` JOIN `Course` 
+  `Student` JOIN `Course`
 ON 
   `Student`.`studentId` = `Course`.`studentId` 
 WHERE 

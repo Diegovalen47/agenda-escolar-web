@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import { connect, queries } from "../database";
 import { Student } from "../interfaces/student.interface";
+import { setHeaders } from "./headers.controler";
 
 export async function getStudents(req: Request, res: Response): Promise<Response> {
 
   try {
+
+    setHeaders(res)
 
     const conn = await connect();
     const response = await conn.query(queries.getAllStudets);
@@ -27,6 +30,8 @@ export async function createNewStudent(req: Request, res: Response): Promise<Res
   const newStudent: Student = req.body
 
   try {
+
+    setHeaders(res)
 
     const conn = await connect();
     conn.query(queries.createNewStudent, [newStudent])
@@ -52,6 +57,8 @@ export async function getStudentById(req: Request, res:Response): Promise<Respon
 
   try {
 
+    setHeaders(res)
+
     const conn = await connect();
     const response = await conn.query(queries.getStudentById, [studentId])
 
@@ -73,6 +80,8 @@ export async function deleteStudent(req: Request, res: Response): Promise<Respon
   const studentId = req.params.studentId;
 
   try {
+
+    setHeaders(res)
 
     const conn = await connect();
     await conn.query(queries.deleteStudent, [studentId])
@@ -98,6 +107,8 @@ export async function updateStudent(req: Request, res: Response): Promise<Respon
   const updateStudent: Student = req.body
 
   try {
+
+    setHeaders(res)
 
     const conn = await connect()
 
