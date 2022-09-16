@@ -29,11 +29,13 @@ export async function createNewStudent(req: Request, res: Response): Promise<Res
 
   const newStudent: Student = req.body
 
+
   try {
 
     setHeaders(res)
 
     const conn = await connect();
+    console.log(newStudent)
     conn.query(queries.createNewStudent, [newStudent])
 
     return res.json({

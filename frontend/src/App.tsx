@@ -7,6 +7,7 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Navbar } from './components/Navbar';
 import { About } from './pages/About';
+import { QueryClient, QueryClientProvider } from "react-query";
 
 
 function App() {
