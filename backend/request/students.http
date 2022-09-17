@@ -1,7 +1,10 @@
 @api = http://localhost:4000/students
+@api2 = http://localhost:4000/trpc/getStudents
 
 ### getting all students
 GET {{api}}
+###
+GET {{api2}}
 
 ### creating new student
 POST {{api}}

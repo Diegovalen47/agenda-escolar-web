@@ -5,14 +5,47 @@ import IndexRoutes from "./routes/index.routes";
 import StudentRoutes from "./routes/students.routes";
 import * as trpc from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
+import { createNewStudent, createNewStudentDatabase, getStudentsDatabase } from "./controllers/student.controller";
+import { z } from "zod";
+import { Student } from "./interfaces/student.interface";
 
 const app = express()
 
-const appRouter = trpc.router().query("hello", {
-  resolve() {
-    return 20;
-  }
-})
+// trpc configuration
+const createContext = ({
+  req,
+  res,
+}: trpcExpress.CreateExpressContextOptions) => ({})
+type Context = trpc.inferAsyncReturnType<typeof createContext>
+
+// trpc configuration
+const appRouter = trpc
+  .router()
+  .query("hello", {
+    resolve() {
+      return 'Hola mundo desde trpc';
+    }
+  })
+  .query('getStudents', {
+    async resolve() {
+      const response = await getStudentsDatabase()
+      return response
+    }
+  })
+  .mutation('createStudent', {
+    input: z.object({
+      studentId: z.number(),
+      password: z.string(),
+      name: z.string(),
+      lastName: z.string(),
+      email: z.string().nullish()
+    }),
+    async resolve({ input }) {
+      console.log(input)
+      const response = await createNewStudentDatabase(input as unknown as Student)
+      return response
+    }
+  })
 
 export type AppRouter = typeof appRouter
 
@@ -26,7 +59,7 @@ app.use(
   "/trpc",
   trpcExpress.createExpressMiddleware({
     router: appRouter,
-    createContext: () => null
+    createContext,
   })
 )
 

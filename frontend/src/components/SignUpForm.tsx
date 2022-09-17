@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Col, Form, InputGroup, Nav, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { Student } from "../models/student.model";
+import { trpc } from "../trpc";
 
 export function SignUpForm() {
 
@@ -12,7 +13,9 @@ export function SignUpForm() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const cssForm = (flex_direcion: string = "column") : any => {
+  const createStudent = trpc.useMutation(["createStudent"])
+
+  const cssForm = (flex_direcion: string = "column"): any => {
 
     var formGroupStyles  = {
       display : "flex",
@@ -26,44 +29,14 @@ export function SignUpForm() {
   const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
 
     event.preventDefault
-    event.stopPropagation
 
-    try {
-
-      let res = await fetch("http://localhost:4000/students", {
-        method : 'POST',
-        headers : {
-          "Content-Type": "aplication/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({
-          studentId: studentId,
-          password: password,
-          name: name,
-          lastName: lastName,
-          email: email ? email : null
-        })
-      })
-
-      console.log(res)
-
-      let resJson = await res.json();
-
-      if (res.status === 200) {
-        setStudentId("");
-        setName("");
-        setLastName("");
-        setPassword("");
-        setEmail("");
-        setMessage("Student created succesfully");
-        console.log(resJson)
-      } else {
-        setMessage("Some error has ocurred")
-      }
-
-    } catch (error) {
-      console.log(error)
-    }
+    createStudent.mutate({
+      studentId: Number(studentId),
+      password: password,
+      name: name,
+      lastName: lastName,
+      email: email !== ""? email : undefined
+    })
 
   };
   
@@ -74,8 +47,8 @@ export function SignUpForm() {
       <div style={cssForm()}>
         <label htmlFor="studentId">Student Id</label>
         <input
-          type="text"
-          id="studentId" 
+          type="number"
+          id="studentId"
           placeholder="Ingrese su id de estudiante"
           onChange={(e) => setStudentId(e.target.value)}
           required

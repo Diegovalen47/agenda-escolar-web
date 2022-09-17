@@ -8,6 +8,32 @@ import { Register } from './pages/Register';
 import { Navbar } from './components/Navbar';
 import { About } from './pages/About';
 import { QueryClient, QueryClientProvider } from "react-query";
+import { trpc } from "./trpc";
+
+
+function AppConfig() {
+
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      }
+    }
+  }))
+  const [trpcClient] = useState(() => 
+    trpc.createClient({
+      url: 'http://localhost:4000/trpc'
+    })
+  )
+
+  return (
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </trpc.Provider>
+  )
+}
 
 
 function App() {
@@ -27,4 +53,4 @@ function App() {
   )
 }
 
-export default App
+export default AppConfig

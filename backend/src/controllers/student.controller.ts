@@ -3,26 +3,27 @@ import { connect, queries } from "../database";
 import { Student } from "../interfaces/student.interface";
 import { setHeaders } from "./headers.controler";
 
-export async function getStudents(req: Request, res: Response): Promise<Response> {
+export async function getStudentsDatabase() {
+  try {
+    const conn = await connect();
+    const response = await conn.query(queries.getAllStudets)
+    return response[0]
+  } catch (error: any) {
+    return error.message
+  }
+}
+
+export async function createNewStudentDatabase(student: Student) {
+
+  const newStudent: Student = student
 
   try {
-
-    setHeaders(res)
-
     const conn = await connect();
-    const response = await conn.query(queries.getAllStudets);
-  
-    return res.json(response[0])
-  
+    conn.query(queries.createNewStudent, [newStudent])
+    return 'Student created'
   } catch (error: any) {
-
-    res.status(500)
-    res.send(error.message)
-
-    return res
-
+    return error.message
   }
-
 }
 
 export async function createNewStudent(req: Request, res: Response): Promise<Response> {
@@ -31,8 +32,6 @@ export async function createNewStudent(req: Request, res: Response): Promise<Res
 
 
   try {
-
-    setHeaders(res)
 
     const conn = await connect();
     console.log(newStudent)
