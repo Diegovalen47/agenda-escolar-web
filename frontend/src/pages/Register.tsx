@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Card, Container } from "react-bootstrap"
-import { SignUpForm } from "../components/SignUpForm"
+import { SignUpForm } from "../components/SignUpForm/SignUpForm"
 import { Student } from "../models/student.model"
 
 export function Register() {

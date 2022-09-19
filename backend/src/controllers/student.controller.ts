@@ -19,37 +19,11 @@ export async function createNewStudentDatabase(student: Student) {
 
   try {
     const conn = await connect();
-    conn.query(queries.createNewStudent, [newStudent])
-    return 'Student created'
+    const response = await conn.query(queries.createNewStudent, [newStudent])
+    return response
   } catch (error: any) {
     return error.message
   }
-}
-
-export async function createNewStudent(req: Request, res: Response): Promise<Response> {
-
-  const newStudent: Student = req.body
-
-
-  try {
-
-    const conn = await connect();
-    console.log(newStudent)
-    conn.query(queries.createNewStudent, [newStudent])
-
-    return res.json({
-      message: 'Post created'
-    })
-
-  } catch (error: any) {
-
-    res.status(500)
-    res.send(error.message)
-
-    return res
-
-  }
-
 }
 
 export async function getStudentById(req: Request, res:Response): Promise<Response> {

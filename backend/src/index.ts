@@ -5,7 +5,7 @@ import IndexRoutes from "./routes/index.routes";
 import StudentRoutes from "./routes/students.routes";
 import * as trpc from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
-import { createNewStudent, createNewStudentDatabase, getStudentsDatabase } from "./controllers/student.controller";
+import { createNewStudentDatabase, getStudentsDatabase } from "./controllers/student.controller";
 import { z } from "zod";
 import { Student } from "./interfaces/student.interface";
 
@@ -43,6 +43,7 @@ const appRouter = trpc
     async resolve({ input }) {
       console.log(input)
       const response = await createNewStudentDatabase(input as unknown as Student)
+      console.log(response)
       return response
     }
   })

@@ -8,8 +8,8 @@ export function Home() {
   return (
     <>
     {
-      getStudents.data?.map((student: Student, index: number) => (
-        <p key={index}>
+      getStudents.data?.map((student: Student) => (
+        <p key={student.studentId} id={student.studentId.toString()}>
           {student.name}
           {' '}
           {student.lastName}
