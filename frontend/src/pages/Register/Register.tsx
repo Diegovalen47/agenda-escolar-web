@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Card, Container } from "react-bootstrap"
-import { SignUpForm } from "../components/SignUpForm/SignUpForm"
-import { Student } from "../models/student.model"
+import { SignUpForm } from "../../components/SignUpForm/SignUpForm"
+import { Student } from "../../models/student.model"
 
 export function Register() {
 
@@ -12,7 +12,7 @@ export function Register() {
           <Card.Title style={{ textAlign: "center"} }>
               Sign Up
           </Card.Title>
-          <SignUpForm />
+          <SignUpForm action={"createStudent"}/>
         </Card.Body>
       </Card>
     </Container>

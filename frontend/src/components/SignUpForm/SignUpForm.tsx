@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import { Button, Col, Form, InputGroup, Nav, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { Student } from "../../models/student.model";
-import { trpc } from "../../trpc";
+import { trpc } from "../../utilities/trpc";
 import "./SignUpFormStyles.css";
 
-export function SignUpForm() {
+type SingUpFormProps = {
+  action: "createStudent" | "updateStudent"
+}
+
+
+export function SignUpForm({action}: SingUpFormProps) {
 
   const [student, setStudent] = useState({
     studentId: "",
@@ -15,16 +20,17 @@ export function SignUpForm() {
     email: ""
   })
 
-  const createStudent = trpc.useMutation(["createStudent"])
-  createStudent.data
+
+  const query = trpc.useMutation([action])
 
   const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
 
     event.preventDefault()
 
-    createStudent.mutate({
+    query.mutate({
       ...student,
-      studentId: Number(student.studentId)
+      studentId: Number(student.studentId),
+      email: student.email === ""? undefined : student.email
     })
 
     setStudent({
@@ -34,6 +40,10 @@ export function SignUpForm() {
       lastName: "",
       email: ""
     })
+
+    if(action === "updateStudent") {
+      window.location.reload();
+    }
 
   };
 

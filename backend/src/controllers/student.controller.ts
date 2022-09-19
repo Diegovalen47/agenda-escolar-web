@@ -15,15 +15,37 @@ export async function getStudentsDatabase() {
 
 export async function createNewStudentDatabase(student: Student) {
 
-  const newStudent: Student = student
-
   try {
     const conn = await connect();
-    const response = await conn.query(queries.createNewStudent, [newStudent])
+    const response = await conn.query(queries.createNewStudent, [student])
     return response
   } catch (error: any) {
     return error.message
   }
+}
+
+export async function deleteStudentDatabase(studentId: number) {
+
+  try {
+    const conn = await connect();
+    const response = await conn.query(queries.deleteStudent, [studentId])
+    return response
+  } catch (error: any) {
+    return error.message
+  }
+
+}
+
+export async function updateStudentDatabase(student: Student) {
+
+  try {
+    const conn = await connect()
+    const response = await conn.query(queries.updateStudent, [student, student.studentId])
+    return response
+  } catch (error: any) {
+    return error.message
+  }
+
 }
 
 export async function getStudentById(req: Request, res:Response): Promise<Response> {

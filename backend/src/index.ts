@@ -5,7 +5,7 @@ import IndexRoutes from "./routes/index.routes";
 import StudentRoutes from "./routes/students.routes";
 import * as trpc from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
-import { createNewStudentDatabase, getStudentsDatabase } from "./controllers/student.controller";
+import { createNewStudentDatabase, deleteStudentDatabase, getStudentsDatabase, updateStudentDatabase } from "./controllers/student.controller";
 import { z } from "zod";
 import { Student } from "./interfaces/student.interface";
 
@@ -43,6 +43,30 @@ const appRouter = trpc
     async resolve({ input }) {
       console.log(input)
       const response = await createNewStudentDatabase(input as unknown as Student)
+      console.log(response)
+      return response
+    }
+  })
+  .mutation('deleteStudent', {
+    input: z.number(),
+    async resolve({ input }) {
+      console.log(input)
+      const response = await deleteStudentDatabase(input)
+      console.log(response)
+      return response
+    }
+  })
+  .mutation('updateStudent', {
+    input: z.object({
+      studentId: z.number(),
+      password: z.string(),
+      name: z.string(),
+      lastName: z.string(),
+      email: z.string().nullish()
+    }),
+    async resolve({ input }) {
+      console.log(input)
+      const response = await updateStudentDatabase(input as unknown as Student)
       console.log(response)
       return response
     }
